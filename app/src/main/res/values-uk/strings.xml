@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_learn_android_patch_url">https://github.com/bmax121/APatch</string>
     <string name="app_name" translatable="false">APatch</string>
     <string name="home">Головна</string>
     <string name="kernel_patch">KernelPatch</string>
@@ -12,7 +11,7 @@
     <string name="reboot_bootloader">Перезавантаження в завантажувач</string>
     <string name="reboot_download">Перезавантаження в режим завантаження</string>
     <string name="about">Про</string>
-    <string name="home_learn_apatch">Дізнайтеся більше про AndroidPatch</string>
+    <string name="home_learn_apatch">Дізнайтеся більше про APatch</string>
     <string name="safe_mode">Безпечний режим</string>
     <string name="super_key">SuperKey</string>
     <string name="clear_super_key">Очистити SuperKey</string>
@@ -43,7 +42,7 @@
     <string name="kpm_author">Автор</string>
     <string name="kpm_args">Аргументи</string>
     <string name="su_selinux_via_hook">Обхід через хук</string>
-    <string name="su_pkg_excluded_setting_title">Виключити</string>
+    <string name="su_pkg_excluded_setting_title">Виключити модифікації</string>
     <string name="su_show_system_apps">Показати системні додатки</string>
     <string name="su_refresh">Оновити</string>
     <string name="apm">Модулі</string>
@@ -58,8 +57,8 @@
     <string name="apm_start_downloading">Початок завантаження %s</string>
     <string name="patch_warnning">Інсталяція має ризики. Будь ласка, створіть резервну копію ваших даних.</string>
     <string name="reboot_edl">Перезавантаження в EDL</string>
-    <string name="home_click_to_learn_apatch">Дізнайтеся більше про можливості AndroidPatch і про його використання</string>
-    <string name="about_source_code">&lt;p&gt;Перегляньте вихідний код на %1$s&lt;p/&gt; Приєднуйтеся до нашого %2$s каналу&lt;p/&gt;Приєднуйтеся до нашої %2$s групи</string>
+    <string name="home_click_to_learn_apatch">Дізнайтеся більше про можливості APatch і про його використання</string>
+    <string name="about_source_code">&lt;p&gt;Перегляньте відкритий код на %1$s&lt;p/&gt; Приєднуйтеся до нашого %2$s каналу&lt;p/&gt;Приєднуйтеся до нашої %2$s групи</string>
     <string name="send_log">Надіслати звіт</string>
     <string name="apatch_version_update">Версія: %s → %s</string>
     <string name="home_apatch_version">Версія APatch %s</string>
@@ -77,7 +76,7 @@
     <string name="kpm_version">Версія</string>
     <string name="su_title">Суперкористувач</string>
     <string name="su_pkg_excluded_label">Виключити</string>
-    <string name="su_pkg_excluded_setting_summary">для модулів</string>
+    <string name="su_pkg_excluded_setting_summary">Увімкнення цієї опції дозволить APatch відновити будь-які модифіковані файли, змінені модулями для цієї програми.</string>
     <string name="su_hide_system_apps">Приховати системні додатки</string>
     <string name="apm_empty">Немає встановлених модулів</string>
     <string name="apm_install">Встановити</string>
@@ -150,7 +149,7 @@
     <string name="settings_donot_store_superkey_summary">Перевіряти валідність SyperKey щоразу при відкритті менеджера</string>
     <string name="setting_reset_su_path">Скинути шлях до файлу su</string>
     <string name="setting_reset_su_new_path">новий повний шлях</string>
-    <string name="apm_webui_open">Відкрити WebUI</string>
+    <string name="apm_webui_open">Відкрити</string>
     <string name="hide_apatch_manager">Приховати APatch Manager</string>
     <string name="kpm_embed">Вставити</string>
     <string name="kpm_add_kpm">Додати KPM</string>
@@ -175,4 +174,42 @@
 \nБудь ласка, перевірте та спробуйте знову. Якщо є ще питання, ви завжди можете запитати на офіційній сторінці репозиторію.</string>
     <string name="home_more_menu_feedback_or_suggestion">Зворотній зв\'язок</string>
     <string name="home_dialog_auth_fail_title">Помилка авторизації</string>
+    <string name="kpm_control_dialog_content">Введіть параметри контролю:</string>
+    <string name="kpm_control_outMsg">Повідомлення</string>
+    <string name="kpm_control_ok">Операцію виконано успішно!</string>
+    <string name="kpm_control_failed">Операцію не виконано!</string>
+    <string name="settings_night_mode_follow_sys_summary">Автоматично переключатися на темну тему за допомогою системних налаштувань</string>
+    <string name="settings_use_system_color_theme_summary">Використовуйте кольорову тему, згенеровану системою, із поточних шпалер</string>
+    <string name="settings_custom_color_theme">Кольорова тема</string>
+    <string name="blue_grey_theme">Синьо-сіра тема</string>
+    <string name="green_theme">Зелена тема</string>
+    <string name="brown_theme">Коричнева тема</string>
+    <string name="indigo_theme">Синьо-фіолетова тема</string>
+    <string name="light_blue_theme">Світло-синя тема</string>
+    <string name="purple_theme">Фіолетова тема</string>
+    <string name="red_theme">Червона тема</string>
+    <string name="sakura_theme">Тема сакури</string>
+    <string name="teal_theme">Синьо-зелена тема</string>
+    <string name="yellow_theme">Жовта тема</string>
+    <string name="orange_theme">Оранжева тема</string>
+    <string name="about_telegram_channel">Телеграм канал</string>
+    <string name="settings_use_system_color_theme">Системна кольорова тема</string>
+    <string name="amber_theme">Бурштинова тема</string>
+    <string name="blue_theme">Синя тема</string>
+    <string name="cyan_theme">Блакитна тема</string>
+    <string name="deep_orange_theme">Темно-оранджева тема</string>
+    <string name="deep_purple_theme">Темньо-фіолетова тема</string>
+    <string name="light_green_theme">Світло-зелена тема</string>
+    <string name="lime_theme">Лаймова тема</string>
+    <string name="pink_theme">Рожева тема</string>
+    <string name="kpm_control">Керування</string>
+    <string name="about_app_version">Версія %1$s</string>
+    <string name="about_app_desc">Root-рішення ядра лише з очищеним образом ядра, що забезпечує можливість монтування системного модуля та хук-функції ядра.</string>
+    <string name="about_telegram_group">Телеграм група</string>
+    <string name="about_powered_by">На основі %1$s</string>
+    <string name="kpm_control_dialog_title">Управління KPModule</string>
+    <string name="kpm_control_paramters">Параметри</string>
+    <string name="settings_night_mode_follow_sys">Слідкувати за системно темою</string>
+    <string name="settings_night_theme_enabled">Увімкнути темну тему</string>
+    <string name="save_log">Зберегти журнали</string>
 </resources>

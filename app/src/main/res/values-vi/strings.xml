@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_learn_android_patch_url">https://github.com/bmax121/APatch</string>
     <string name="app_name" translatable="false">APatch</string>
     <string name="home">Trang chủ</string>
     <string name="kernel_patch">Bản vá Kernel</string>
     <string name="android_patch">Bản vá Android</string>
     <string name="reboot">Khởi động lại</string>
-    <string name="settings">Cài đặt</string>
+    <string name="settings">Thiết đặt</string>
     <string name="reboot_userspace">Khởi động lại nhanh</string>
     <string name="reboot_recovery">Khởi động vào Recovery</string>
     <string name="reboot_bootloader">Khởi động vào Bootloader</string>
@@ -20,13 +19,12 @@
     <string name="home_not_installed">Chưa cài đặt</string>
     <string name="home_install_unknown">Không xác định</string>
     <string name="home_click_to_install">Bấm để cài đặt</string>
-    <string name="home_working">Đang làm việc</string>
+    <string name="home_working">Đang hoạt động 😋</string>
     <string name="home_installing">Cài đặt</string>
     <string name="home_need_update">Có bản cập nhật mới</string>
-    <string name="kpatch_version">Phiên bản: %d.%d.%d</string>
-    <string name="apatch_version_update">Phiên bản:
-\n%s -&gt; %s</string>
-    <string name="home_auth_key_title">Nhập Siêu Khóa</string>
+    <string name="kpatch_version">Phiên bản: %s</string>
+    <string name="apatch_version_update">Phiên bản: %s -&gt; %s</string>
+    <string name="home_auth_key_title">Nhập SuperKey</string>
     <string name="home_auth_key_desc">Bắt đầu sau khi được chứng nhận</string>
     <string name="home_ap_cando_install">Cài đặt</string>
     <string name="home_ap_cando_update">Cập nhật</string>
@@ -36,9 +34,9 @@
     <string name="home_fingerprint">Vân tay</string>
     <string name="home_selinux_status">Trạng thái SELinux</string>
     <string name="home_selinux_status_disabled">Vô hiệu hóa</string>
-    <string name="home_selinux_status_enforcing">Đang thực thi</string>
-    <string name="home_selinux_status_permissive">Cho phép</string>
-    <string name="home_selinux_status_unknown">Không xác định</string>
+    <string name="home_selinux_status_enforcing">Đang thực thi (Enforcing)</string>
+    <string name="home_selinux_status_permissive">Cho phép (Permissive)</string>
+    <string name="home_selinux_status_unknown">Không xác định (Unknown)</string>
     <string name="kpm_kp_not_installed">KernelPatch chưa được cài đặt</string>
     <string name="kpm_load_toast_succ">Tải thành công</string>
     <string name="kpm_load_toast_failed">Tải không thành công</string>
@@ -70,40 +68,39 @@
     <string name="apm_start_downloading">Bắt đầu tải xuống %s</string>
     <string name="apm_new_version_available">Nhấn để nâng cấp phiên bản mới, %s.</string>
     <string name="patch_warnning">Việc cài đặt đi kèm với rủi ro. Hãy đảm bảo dữ liệu của bạn đã được sao lưu.</string>
-    <string name="super_key">Siêu khóa</string>
-    <string name="patch_set_superkey">Đặt siêu khóa</string>
-    <string name="apatch_version">Phiên bản:
-\n%s</string>
+    <string name="super_key">SuperKey</string>
+    <string name="patch_set_superkey">Đặt SuperKey</string>
+    <string name="apatch_version">Phiên bản: %s</string>
     <string name="home_learn_apatch">Tìm hiểu AndroidPatch</string>
     <string name="home_patch_set_key_desc">Chỉ có thông tin xác thực cho KernelPatch</string>
     <string name="kpm_author">Tác giả</string>
     <string name="apm_not_installed">AndroidPatch chưa được cài đặt</string>
-    <string name="su_pkg_excluded_setting_title">Loại trừ</string>
-    <string name="su_pkg_excluded_setting_summary">Cho các mô-đun</string>
+    <string name="su_pkg_excluded_setting_title">Loại trừ sửa đổi</string>
+    <string name="su_pkg_excluded_setting_summary">Việc bật tùy chọn này sẽ cho phép APatch khôi phục mọi tệp đã sửa đổi theo mô-đun cho ứng dụng này.</string>
     <string name="su_show_system_apps">Hiển thị ứng dụng hệ thống</string>
     <string name="su_hide_system_apps">Ẩn ứng dụng hệ thống</string>
     <string name="su_refresh">Làm mới</string>
     <string name="apm_failed_to_enable">Không thể kích hoạt mô-đun %s</string>
-    <string name="clear_super_key">Xóa khóa</string>
+    <string name="clear_super_key">Xóa SuperKey</string>
     <string name="apm_magisk_conflict">Modules không khả dụng do xung đột với Magisk.</string>
     <string name="about_source_code">Xem mã nguồn tại %1$s<br/>Tham gia kênh %2$s của chúng tôi</string>
-    <string name="home_su_path">su: %s</string>
+    <string name="home_su_path">Thực thi Su</string>
     <string name="home_kernel">Kernel</string>
     <string name="kpm">KPModule</string>
     <string name="su_title">Superuser</string>
     <string name="apm">APModule</string>
     <string name="settings_app_language">Ngôn ngữ</string>
     <string name="system_default">Mặc định hệ thống</string>
-    <string name="home_apatch_version">APatch: %s</string>
+    <string name="home_apatch_version">Phiên bản APatch</string>
     <string name="patch">Vá</string>
     <string name="settings_global_namespace_mode">Chế độ Global Namespace</string>
     <string name="settings_global_namespace_mode_summary">Tất cả các phiên Root sử dụng Namespace Mount Global</string>
     <string name="patch_embed_kpm_btn">Nhúng KPM</string>
     <string name="patch_item_extra_event">sự kiện:</string>
-    <string name="mode_select_page_select_file">Chọn boot image để vá</string>
+    <string name="mode_select_page_select_file">Chọn boot image để Vá</string>
     <string name="home_dialog_auth_fail_title">Xác thực thất bại</string>
     <string name="mode_select_page_install_inactive_slot">Cài đặt vào khe không hoạt động (Sau OTA)</string>
-    <string name="home_dialog_auth_fail_content">Không thể xác thực siêu khóa, do đó APatch không thể hoạt động bình thường.
+    <string name="home_dialog_auth_fail_content">Không thể xác thực SuperKey, do đó APatch không thể hoạt động bình thường.
 \nDưới đây là một số lý do có thể dẫn đến lỗi xác thực:
 \n1. Bạn chưa vá boot image bằng KernelPatch.
 \n2. Hình ảnh khởi động được vá không được flash.
@@ -116,7 +113,7 @@
     <string name="kpm_control_dialog_content">Các thông số điều khiển đầu vào:</string>
     <string name="kpm_control_paramters">Thông số</string>
     <string name="kpm_control_failed">Lỗi hệ thống!</string>
-    <string name="settings_night_mode_follow_sys_summary">Tự động chuyển sang chủ đề tối theo cài đặt của hệ thống</string>
+    <string name="settings_night_mode_follow_sys_summary">Tự động chuyển sang chủ đề tối theo thiết đặt của hệ thống</string>
     <string name="settings_use_system_color_theme_summary">Sử dụng chủ đề màu do hệ thống tạo với hình nền hiện tại</string>
     <string name="settings_custom_color_theme">Chủ đề màu sắc</string>
     <string name="blue_grey_theme">Chủ đề BlueGrey</string>
@@ -159,7 +156,7 @@
     <string name="hide_apatch_dialog_summary">Nó sẽ được sử dụng làm nhãn ứng dụng mới hiển thị trong trình khởi chạy</string>
     <string name="hide_apatch_manager_failure">Không ẩn được, vui lòng báo cáo lỗi!</string>
     <string name="setting_reset_su_new_path">đường dẫn đầy đủ mới</string>
-    <string name="settings_donot_store_superkey_summary">Xác thực siêu khóa mỗi khi người quản lý khởi động</string>
+    <string name="settings_donot_store_superkey_summary">Xác thực Super Key mỗi khi mở APatch</string>
     <string name="about_app_version">Phiên bản %1$s</string>
     <string name="about_telegram_channel">Kênh Telegram</string>
     <string name="about_telegram_group">Nhóm Telegram</string>
@@ -179,17 +176,17 @@
 \nChỉ sử dụng tùy chọn này sau khi OTA hoàn tất.
 \nTiếp tục?</string>
     <string name="deep_orange_theme">Chủ đề màu cam đậm</string>
-    <string name="home_more_menu_feedback_or_suggestion">Phản hồi hoặc đề xuất</string>
-    <string name="patch_item_set_skey_label">Độ dài của siêu khóa phải có ít nhất 8 ký tự và bao gồm cả số và chữ cái</string>
+    <string name="home_more_menu_feedback_or_suggestion">Góp ý hoặc báo lỗi</string>
+    <string name="patch_item_set_skey_label">Độ dài của SuperKey phải có ít nhất 8 ký tự và bao gồm cả số và chữ cái</string>
     <string name="home_device_info">Thiết bị</string>
     <string name="home_kpatch_version">Phiên bản KernelPatch</string>
     <string name="kpm_add_kpm">Thêm KPM</string>
     <string name="hide_apatch_manager_summary">Cài đặt ứng dụng người quản lý mới với ID gói ngẫu nhiên và nhãn ứng dụng tùy chỉnh</string>
     <string name="enable_web_debugging">Bật gỡ lỗi WebView</string>
     <string name="enable_web_debugging_summary">Có thể được sử dụng để gỡ lỗi WebUI, vui lòng chỉ bật khi cần.</string>
-    <string name="settings_donot_store_superkey">Không lưu trữ siêu khóa ở địa phương</string>
+    <string name="settings_donot_store_superkey">Không lưu trữ Super Key</string>
     <string name="home_new_apatch_found">Đã có phiên bản mới: %s, Click vào tôi để nâng cấp</string>
-    <string name="settings_night_mode_follow_sys">Theo dõi chủ đề đen tối của hệ thống</string>
+    <string name="settings_night_mode_follow_sys">Theo chủ đề tối của hệ thống</string>
     <string name="settings_night_theme_enabled">Bật chủ đề tối</string>
     <string name="blue_theme">Chủ đề màu xanh</string>
     <string name="cyan_theme">Chủ đề màu lục lam</string>
@@ -200,7 +197,7 @@
     <string name="patch_item_existed_extra_kpm">Tồn tại</string>
     <string name="patch_item_extra_kpm_desciption">mô tả:</string>
     <string name="patch_item_extra_args">tham số:</string>
-    <string name="mode_select_page_patch_and_install">Vá và cài đặt</string>
+    <string name="mode_select_page_patch_and_install">Cài đặt trực tiếp</string>
     <string name="home_dialog_uninstall_ap_only">Gỡ cài đặt AndroidPatch</string>
     <string name="kpm_control_outMsg">Tin nhắn</string>
     <string name="kpm_control_ok">Hoạt động đã thành công!</string>
@@ -214,4 +211,5 @@
     <string name="kpatch_version_update">Phiên bản: %s -&gt; %s</string>
     <string name="home_more_menu_about">Giới thiệu</string>
     <string name="home_dialog_uninstall_title">Gỡ cài đặt</string>
+    <string name="save_log">Lưu nhật ký</string>
 </resources>

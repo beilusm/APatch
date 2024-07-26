@@ -622,6 +622,12 @@ pub fn disable_module(id: &str) -> Result<()> {
 }
 
 pub fn disable_all_modules() -> Result<()> {
+    // Skip disabling modules since boot completed
+    if getprop("sys.boot_completed").as_deref() == Some("1") {
+        info!("System boot completed, no need to disable all modules");
+        return Ok(());
+    }
+
     // we assume the module dir is already mounted
     let dir = std::fs::read_dir(defs::MODULE_DIR)?;
     for entry in dir.flatten() {
@@ -678,11 +684,13 @@ fn _list_modules(path: &str) -> Vec<HashMap<String, String>> {
         let update = path.join(defs::UPDATE_FILE_NAME).exists();
         let remove = path.join(defs::REMOVE_FILE_NAME).exists();
         let web = path.join(defs::MODULE_WEB_DIR).exists();
+        let action = path.join(defs::MODULE_ACTION_SH).exists();
 
         module_prop_map.insert("enabled".to_owned(), enabled.to_string());
         module_prop_map.insert("update".to_owned(), update.to_string());
         module_prop_map.insert("remove".to_owned(), remove.to_string());
         module_prop_map.insert("web".to_owned(), web.to_string());
+        module_prop_map.insert("action".to_owned(), action.to_string());
 
         if result.is_err() {
             warn!("Failed to parse module.prop: {}", module_prop.display());

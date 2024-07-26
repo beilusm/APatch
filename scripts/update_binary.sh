@@ -1,22 +1,23 @@
 #!/sbin/sh
 #
 TMPDIR=/dev/tmp
+TD=$2
 rm -rf $TMPDIR
 mkdir -p $TMPDIR 2>/dev/null
 
 ui_print() {
-  echo -n -e "ui_print $1\n" > /proc/self/fd/$FD
-  echo -n -e "ui_print\n" > /proc/self/fd/$FD
+  echo -n -e "ui_print $1\n" > /proc/self/fd/$TD
+  echo -n -e "ui_print\n" > /proc/self/fd/$TD
 }
 
-ui_print "- Welecom to apatch twrp tool"
-ui_print "- Installing from Apatch TWRP"
+ui_print "- Welcome to Apatch twrp tool"
+ui_print "- Installing Apatch from TWRP"
 ui_print "- Powered by Apatch"
 solt=$(getprop ro.boot.slot_suffix)
 if [ -d solt ]; then
 	ui_print "*********************************************************"
-    ui_print "! Your solt is not set,maybe your device is not support A/B"
-    ui_print "! Please backup your devices"
+    ui_print "! Your slot is not set, maybe your device does not support A/B"
+    ui_print "! Please backup your device"
 	ui_print "*********************************************************"
 fi
 

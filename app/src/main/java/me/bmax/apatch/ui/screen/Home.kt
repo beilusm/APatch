@@ -97,12 +97,15 @@ import me.bmax.apatch.ui.screen.destinations.AboutScreenDestination
 import me.bmax.apatch.ui.screen.destinations.InstallModeSelectScreenDestination
 import me.bmax.apatch.ui.screen.destinations.PatchesDestination
 import me.bmax.apatch.ui.viewmodel.PatchesViewModel
+import me.bmax.apatch.util.LatestVersionInfo
 import me.bmax.apatch.util.Version
 import me.bmax.apatch.util.Version.getManagerVersion
 import me.bmax.apatch.util.checkNewVersion
 import me.bmax.apatch.util.getSELinuxStatus
 import me.bmax.apatch.util.reboot
 import me.bmax.apatch.util.ui.APDialogBlurBehindUtils
+
+private val managerVersion = getManagerVersion()
 
 @RootNavGraph(start = true)
 @Destination
@@ -120,7 +123,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
     Scaffold(topBar = {
         TopBar(onInstallClick = {
             navigator.navigate(InstallModeSelectScreenDestination, true)
-        }, navigator)
+        }, navigator, kpState)
     }) { innerPadding ->
         Column(
             modifier = Modifier
@@ -382,7 +385,9 @@ fun RebootDropdownItem(@StringRes id: Int, reason: String = "") {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(onInstallClick: () -> Unit, navigator: DestinationsNavigator) {
+private fun TopBar(
+    onInstallClick: () -> Unit, navigator: DestinationsNavigator, kpState: APApplication.State
+) {
     val uriHandler = LocalUriHandler.current
     var showDropdownMoreOptions by remember { mutableStateOf(false) }
     var showDropdownReboot by remember { mutableStateOf(false) }
@@ -397,29 +402,31 @@ private fun TopBar(onInstallClick: () -> Unit, navigator: DestinationsNavigator)
             )
         }
 
-        IconButton(onClick = {
-            showDropdownReboot = true
-        }) {
-            Icon(
-                imageVector = Icons.Filled.Refresh,
-                contentDescription = stringResource(id = R.string.reboot)
-            )
+        if (kpState != APApplication.State.UNKNOWN_STATE) {
+            IconButton(onClick = {
+                showDropdownReboot = true
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.Refresh,
+                    contentDescription = stringResource(id = R.string.reboot)
+                )
 
-            ProvideMenuShape(RoundedCornerShape(10.dp)) {
-                DropdownMenu(expanded = showDropdownReboot, onDismissRequest = {
-                    showDropdownReboot = false
-                }) {
-                    RebootDropdownItem(id = R.string.reboot)
+                ProvideMenuShape(RoundedCornerShape(10.dp)) {
+                    DropdownMenu(expanded = showDropdownReboot, onDismissRequest = {
+                        showDropdownReboot = false
+                    }) {
+                        RebootDropdownItem(id = R.string.reboot)
 
-                    val pm =
-                        LocalContext.current.getSystemService(Context.POWER_SERVICE) as PowerManager?
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && pm?.isRebootingUserspaceSupported == true) {
-                        RebootDropdownItem(id = R.string.reboot_userspace, reason = "userspace")
+                        val pm =
+                            LocalContext.current.getSystemService(Context.POWER_SERVICE) as PowerManager?
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && pm?.isRebootingUserspaceSupported == true) {
+                            RebootDropdownItem(id = R.string.reboot_userspace, reason = "userspace")
+                        }
+                        RebootDropdownItem(id = R.string.reboot_recovery, reason = "recovery")
+                        RebootDropdownItem(id = R.string.reboot_bootloader, reason = "bootloader")
+                        RebootDropdownItem(id = R.string.reboot_download, reason = "download")
+                        RebootDropdownItem(id = R.string.reboot_edl, reason = "edl")
                     }
-                    RebootDropdownItem(id = R.string.reboot_recovery, reason = "recovery")
-                    RebootDropdownItem(id = R.string.reboot_bootloader, reason = "bootloader")
-                    RebootDropdownItem(id = R.string.reboot_download, reason = "download")
-                    RebootDropdownItem(id = R.string.reboot_edl, reason = "edl")
                 }
             }
         }
@@ -573,7 +580,7 @@ private fun KStatusCard(
                     if (kpState != APApplication.State.UNKNOWN_STATE && kpState != APApplication.State.KERNELPATCH_NEED_UPDATE && kpState != APApplication.State.KERNELPATCH_NEED_REBOOT) {
                         Spacer(Modifier.height(4.dp))
                         Text(
-                            text = "${Version.installedKPVString()} (${getManagerVersion().second}) - " + if (apState != APApplication.State.ANDROIDPATCH_NOT_INSTALLED) "Full" else "KernelPatch",
+                            text = "${Version.installedKPVString()} (${managerVersion.second}) - " + if (apState != APApplication.State.ANDROIDPATCH_NOT_INSTALLED) "Full" else "KernelPatch",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -696,7 +703,7 @@ private fun AStatusCard(apState: APApplication.State) {
                         .weight(2f)
                         .padding(start = 16.dp)
                 ) {
-                    val managerVersion = getManagerVersion()
+
                     when (apState) {
                         APApplication.State.ANDROIDPATCH_NOT_INSTALLED -> {
                             Text(
@@ -887,8 +894,7 @@ private fun InfoCard(kpState: APApplication.State, apState: APApplication.State)
 
             if (apState != APApplication.State.UNKNOWN_STATE && apState != APApplication.State.ANDROIDPATCH_NOT_INSTALLED) {
                 InfoCardItem(
-                    stringResource(R.string.home_apatch_version),
-                    getManagerVersion().second.toString()
+                    stringResource(R.string.home_apatch_version), managerVersion.second.toString()
                 )
                 Spacer(Modifier.height(16.dp))
             }
@@ -933,20 +939,23 @@ fun WarningCard(
 
 @Composable
 fun UpdateCard() {
-    val newVersion by produceState(initialValue = Triple(0, "", "")) {
-        value = withContext(Dispatchers.IO) { checkNewVersion() }
+    val latestVersionInfo = LatestVersionInfo()
+    val newVersion by produceState(initialValue = latestVersionInfo) {
+        value = withContext(Dispatchers.IO) {
+            checkNewVersion()
+        }
     }
-    val currentVersionCode = getManagerVersion().second
-    val newVersionCode = newVersion.first
-    val newVersionUrl = newVersion.second
-    val changelog = newVersion.third
+    val currentVersionCode = managerVersion.second
+    val newVersionCode = newVersion.versionCode
+    val newVersionUrl = newVersion.downloadUrl
+    val changelog = newVersion.changelog
 
     val uriHandler = LocalUriHandler.current
     val title = stringResource(id = R.string.apm_changelog)
     val updateText = stringResource(id = R.string.apm_update)
 
     AnimatedVisibility(
-        visible = newVersionCode >= currentVersionCode,
+        visible = newVersionCode > currentVersionCode,
         enter = fadeIn() + expandVertically(),
         exit = shrinkVertically() + fadeOut()
     ) {
@@ -955,7 +964,9 @@ fun UpdateCard() {
             message = stringResource(id = R.string.home_new_apatch_found).format(newVersionCode),
             MaterialTheme.colorScheme.outlineVariant
         ) {
-            if (changelog.isNotEmpty()) {
+            if (changelog.isEmpty()) {
+                uriHandler.openUri(newVersionUrl)
+            } else {
                 updateDialog.showConfirm(
                     title = title, content = changelog, markdown = true, confirm = updateText
                 )
@@ -967,13 +978,12 @@ fun UpdateCard() {
 @Composable
 fun LearnMoreCard() {
     val uriHandler = LocalUriHandler.current
-    val url = stringResource(R.string.home_learn_android_patch_url)
 
     ElevatedCard {
         Row(modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                uriHandler.openUri(url)
+                uriHandler.openUri("https://apatch.dev")
             }
             .padding(24.dp), verticalAlignment = Alignment.CenterVertically) {
             Column {

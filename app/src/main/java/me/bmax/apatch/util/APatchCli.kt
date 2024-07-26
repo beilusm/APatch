@@ -1,7 +1,10 @@
 package me.bmax.apatch.util
 
+import android.content.ContentResolver
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.util.Log
 import com.topjohnwu.superuser.CallbackList
 import com.topjohnwu.superuser.Shell
@@ -17,7 +20,6 @@ private fun getKPatchPath(): String {
     return apApp.applicationInfo.nativeLibraryDir + File.separator + "libkpatch.so"
 }
 
-
 class RootShellInitializer : Shell.Initializer() {
     override fun onInit(context: Context, shell: Shell): Boolean {
         shell.newJob().add("export PATH=\$PATH:/system_ext/bin:/vendor/bin").exec()
@@ -25,16 +27,29 @@ class RootShellInitializer : Shell.Initializer() {
     }
 }
 
+@Suppress("DEPRECATION")
 fun createRootShell(): Shell {
     Shell.enableVerboseLogging = BuildConfig.DEBUG
-    val builder = Shell.Builder.create()
+    val builder = Shell.Builder.create().setInitializers(RootShellInitializer::class.java)
     return try {
-        builder.setInitializers(RootShellInitializer::class.java).build(
-            getKPatchPath(), APApplication.superKey, "su", "-Z", APApplication.MAGISK_SCONTEXT
+        builder.build(
+            "/system/bin/truncate", APApplication.superKey, "-Z", APApplication.MAGISK_SCONTEXT
         )
     } catch (e: Throwable) {
         Log.e(TAG, "su failed: ", e)
-        builder.build("sh")
+        try {
+            Log.e(TAG, "retry compat kpatch su")
+            return builder.build(
+                getKPatchPath(),
+                APApplication.superKey,
+                "su",
+                "-Z",
+                APApplication.MAGISK_SCONTEXT
+            )
+        } catch (e: Throwable) {
+            Log.e(TAG, "retry compat kpatch su failed: ", e)
+            return builder.build("sh")
+        }
     }
 }
 
@@ -56,21 +71,34 @@ fun rootAvailable(): Boolean {
     return shell.isRoot
 }
 
+@Suppress("DEPRECATION")
 fun tryGetRootShell(): Shell {
     Shell.enableVerboseLogging = BuildConfig.DEBUG
     val builder = Shell.Builder.create()
     return try {
         builder.build(
-            getKPatchPath(), APApplication.superKey, "su", "-Z", APApplication.MAGISK_SCONTEXT
+            "/system/bin/truncate", APApplication.superKey, "-Z", APApplication.MAGISK_SCONTEXT
         )
     } catch (e: Throwable) {
         Log.e(TAG, "su failed: ", e)
         return try {
-            Log.e(TAG, "retry su: ", e)
-            builder.build("su")
+            Log.e(TAG, "retry compat kpatch su")
+            builder.build(
+                getKPatchPath(),
+                APApplication.superKey,
+                "su",
+                "-Z",
+                APApplication.MAGISK_SCONTEXT
+            )
         } catch (e: Throwable) {
-            Log.e(TAG, "retry su failed: ", e)
-            builder.build("sh")
+            Log.e(TAG, "retry kpatch su failed: ", e)
+            return try {
+                Log.e(TAG, "retry su: ", e)
+                builder.build("su")
+            } catch (e: Throwable) {
+                Log.e(TAG, "retry su failed: ", e)
+                builder.build("sh")
+            }
         }
     }
 }
@@ -205,4 +233,16 @@ fun launchApp(packageName: String) {
 fun restartApp(packageName: String) {
     forceStopApp(packageName)
     launchApp(packageName)
+}
+
+fun getFileNameFromUri(context: Context, uri: Uri): String? {
+    var fileName: String? = null
+    val contentResolver: ContentResolver = context.contentResolver
+    val cursor: Cursor? = contentResolver.query(uri, null, null, null, null)
+    cursor?.use {
+        if (it.moveToFirst()) {
+            fileName = it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+        }
+    }
+    return fileName
 }

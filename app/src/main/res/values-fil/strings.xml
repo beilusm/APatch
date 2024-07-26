@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_learn_android_patch_url">https://github.com/bmax121/APatch</string>
     <string name="app_name" translatable="false">APatch</string>
     <string name="android_patch">AndroidPatch</string>
     <string name="patch_warnning">Ang instalasyon na ito ay pwede ikaka-sira ng inyong kagamitan, tiyakin muna kung ang iyong data ay naka-backup.</string>
@@ -77,4 +76,5 @@
     <string name="apm_start_downloading">Simulan ang pag-download ng: %s</string>
     <string name="apm_downloading">Ini-download ang module: %s</string>
     <string name="apm_new_version_available">Bagong bersyon: %s ay available, i-click para i-upgrade</string>
+    <string name="home">Tahanan</string>
 </resources>

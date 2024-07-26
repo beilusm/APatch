@@ -1,7 +1,6 @@
-use anyhow::{anyhow, bail, Ok, Result};
-
 #[cfg(any(target_os = "linux", target_os = "android"))]
 use anyhow::Context;
+use anyhow::{anyhow, bail, Ok, Result};
 #[cfg(any(target_os = "linux", target_os = "android"))]
 #[allow(unused_imports)]
 use retry::delay::NoDelay;
@@ -9,11 +8,16 @@ use retry::delay::NoDelay;
 //use sys_mount::{unmount, FilesystemType, Mount, MountFlags, Unmount, UnmountFlags};
 #[cfg(any(target_os = "linux", target_os = "android"))]
 use rustix::{fd::AsFd, fs::CWD, mount::*};
+use std::fs::create_dir;
+#[cfg(any(target_os = "linux", target_os = "android"))]
+use std::os::unix::fs::PermissionsExt;
 
 use crate::defs::AP_OVERLAY_SOURCE;
+use crate::defs::PTS_NAME;
 use log::{info, warn};
 #[cfg(any(target_os = "linux", target_os = "android"))]
 use procfs::process::Process;
+use std::fs;
 use std::path::Path;
 use std::path::PathBuf;
 
@@ -24,7 +28,22 @@ pub struct AutoMountExt4 {
 
 impl AutoMountExt4 {
     #[cfg(any(target_os = "linux", target_os = "android"))]
+
     pub fn try_new(source: &str, target: &str, auto_umount: bool) -> Result<Self> {
+        let path = Path::new(source);
+        if !path.exists() {
+            println!("Source path does not exist");
+        } else {
+            let metadata = fs::metadata(path)?;
+            let permissions = metadata.permissions();
+            let mode = permissions.mode();
+
+            if permissions.readonly() {
+                #[cfg(any(target_os = "linux", target_os = "android"))]
+                println!("File permissions: {:o} (octal)", mode & 0o777);
+            }
+        }
+
         mount_ext4(source, target)?;
         Ok(Self {
             target: target.to_string(),
@@ -61,7 +80,7 @@ impl Drop for AutoMountExt4 {
 #[cfg(any(target_os = "linux", target_os = "android"))]
 pub fn mount_image(src: &str, target: &str, _autodrop: bool) -> Result<()> {
     mount_ext4(src, target)?;
-        Ok(())
+    Ok(())
 }
 
 #[cfg(any(target_os = "linux", target_os = "android"))]
@@ -159,7 +178,22 @@ pub fn mount_overlayfs(
     }
     Ok(())
 }
-
+#[cfg(any(target_os = "linux", target_os = "android"))]
+pub fn mount_devpts(dest: impl AsRef<Path>) -> Result<()> {
+    create_dir(dest.as_ref())?;
+    mount(
+        AP_OVERLAY_SOURCE,
+        dest.as_ref(),
+        "devpts",
+        MountFlags::empty(),
+        "newinstance",
+    )?;
+    Ok(())
+}
+#[cfg(not(any(target_os = "linux", target_os = "android")))]
+pub fn mount_devpts(_dest: impl AsRef<Path>) -> Result<()> {
+    unimplemented!()
+}
 #[cfg(any(target_os = "linux", target_os = "android"))]
 pub fn mount_tmpfs(dest: impl AsRef<Path>) -> Result<()> {
     info!("mount tmpfs on {}", dest.as_ref().display());
@@ -183,6 +217,10 @@ pub fn mount_tmpfs(dest: impl AsRef<Path>) -> Result<()> {
             rustix::fs::MountFlags::empty(),
             "",
         )?;
+    }
+    let pts_dir = format!("{}/{PTS_NAME}", dest.as_ref().display());
+    if let Err(e) = mount_devpts(pts_dir) {
+        warn!("do devpts mount failed: {}", e);
     }
     Ok(())
 }

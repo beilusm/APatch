@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_learn_android_patch_url">https://github.com/bmax121/APatch</string>
     <string name="app_name" translatable="false">APatch</string>
     <string name="kernel_patch">KernelPatch</string>
     <string name="android_patch">AndroidPatch</string>
@@ -87,9 +86,9 @@
     <string name="kpm_apm_empty">Aucun module chargé</string>
     <string name="apm_failed_to_enable">Impossible d\'activer le module \"%s\"</string>
     <string name="kpm_args">Arguments</string>
-    <string name="su_pkg_excluded_setting_summary">pour les modules</string>
+    <string name="su_pkg_excluded_setting_summary">L\'activation de cette option permettra à APatch de restaurer tous les fichiers modifiés par les modules de cette application.</string>
     <string name="apm_remove">Désinstaller</string>
-    <string name="su_pkg_excluded_setting_title">Exclure</string>
+    <string name="su_pkg_excluded_setting_title">Exclure les modifications</string>
     <string name="apm_overlay_fs_not_available">Les modules sont indisponibles car OverlayFS est désactivé par le noyau.</string>
     <string name="patch">Patcher</string>
     <string name="settings_app_language">Langage</string>
@@ -212,4 +211,5 @@
     <string name="red_theme">Thème rouge</string>
     <string name="kpm_control_paramters">Paramètres</string>
     <string name="settings_night_mode_follow_sys_summary">Basculement automatique vers le thème sombre en fonction des paramètres du système</string>
+    <string name="save_log">Enregistrer les logs</string>
 </resources>
